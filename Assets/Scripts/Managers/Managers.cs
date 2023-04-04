@@ -5,8 +5,8 @@ using UnityEngine;
 public class Managers : MonoBehaviour
 {
     #region SingleTone
-    static Managers                 s_instance = null;
-    static Managers                 Instance { get { Init(); return s_instance; } }
+    private static Managers                 s_instance = null;
+    private static Managers                 Instance { get { Init(); return s_instance; } }
     #endregion
 
     private InputManager            _input = new InputManager();
@@ -14,6 +14,9 @@ public class Managers : MonoBehaviour
 
     private ResourceManager         _resource = new ResourceManager();
     public static ResourceManager   Resource { get { return Instance._resource; }}
+
+    private UIManager               _ui = new UIManager();
+    public static UIManager         UI { get { return Instance._ui; } }
 
     private void Start()
     {
