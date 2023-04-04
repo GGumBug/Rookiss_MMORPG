@@ -4,13 +4,5 @@ using UnityEngine;
 
 public class Poolable : MonoBehaviour
 {
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
+    public bool isUsing;
 }
