@@ -23,6 +23,8 @@ public class ResourceManager
         int index = go.name.IndexOf("(Clone)");
         if (index > 0)
             go.name = go.name.Substring(0, index); // 0 번부터 index 까지의 문자열을 잘라서 반환
+        // go.name = prefab.name으로 하면 한줄로 가능하다.
+        // Load는 메모리에 원본을 할당 시키는거고, Instantiate는 할당한 원본의 복사본을 객체화 시키는 것이라 clone이 붙는 거다.
 
         return go;
     }

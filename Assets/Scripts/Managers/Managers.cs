@@ -10,16 +10,18 @@ public class Managers : MonoBehaviour
     #endregion
 
     private InputManager            _input = new InputManager();
-    public static InputManager      Input { get { return Instance._input; } }
-
+    private PoolManager             _pool = new PoolManager();
     private ResourceManager         _resource = new ResourceManager();
-    public static ResourceManager   Resource { get { return Instance._resource; }}
-
-    private UIManager               _ui = new UIManager();
-    public static UIManager         UI { get { return Instance._ui; } }
-
     private SceneManagerEx          _scene = new SceneManagerEx();
+    private SoundManager            _sound = new SoundManager();
+    private UIManager               _ui = new UIManager();
+
+    public static InputManager      Input { get { return Instance._input; } }
+    public static PoolManager       Pool { get { return Instance._pool; } }
+    public static ResourceManager   Resource { get { return Instance._resource; }}
     public static SceneManagerEx    Scene { get { return Instance._scene; } }
+    public static SoundManager      Sound { get { return Instance._sound; } }
+    public static UIManager         UI { get { return Instance._ui; } }
 
     private void Start()
     {
@@ -38,11 +40,21 @@ public class Managers : MonoBehaviour
             GameObject go = GameObject.Find("@Managers");
             if (go == null)
             {
-                go = new GameObject("@Managers");
+                go = new GameObject { name = "@Managers" };
                 go.AddComponent<Managers>();
             }
             DontDestroyOnLoad(go);
             s_instance = go.GetComponent<Managers>();
+
+            s_instance._sound.Init();
         }
+    }
+
+    public static void Clear()
+    {
+        Sound.Clear();
+        Input.Clear();
+        Scene.Clear();
+        UI.Clear();
     }
 }

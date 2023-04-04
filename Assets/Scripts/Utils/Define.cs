@@ -11,6 +11,14 @@ public class Define : MonoBehaviour
         Lobby,
         Game
     }
+
+    public enum Sound
+    {
+        Bgm,
+        Effect,
+        MaxCount
+    }
+
     public enum UIEvent
     {
         Click,

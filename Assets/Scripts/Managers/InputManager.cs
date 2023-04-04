@@ -6,8 +6,8 @@ using System;
 
 public class InputManager
 {
-    public Action KeyAction = null;
-    public Action<Define.MouseEvent> MouseAction = null;
+    public Action                       KeyAction = null;
+    public Action<Define.MouseEvent>    MouseAction = null;
  
 
     bool _pressed = false;
@@ -35,5 +35,11 @@ public class InputManager
                 _pressed = false;
             }
         }
+    }
+
+    public void Clear()
+    {
+        KeyAction = null;
+        MouseAction = null;
     }
 }
