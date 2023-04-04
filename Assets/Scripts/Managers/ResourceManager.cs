@@ -19,7 +19,12 @@ public class ResourceManager
         }
 
         // Object를 안붙이면 재귀함수로 본인을 호출하려해서 붙여줘야된다.
-        return Object.Instantiate(prefab, parent);
+        GameObject go = Object.Instantiate(prefab, parent);
+        int index = go.name.IndexOf("(Clone)");
+        if (index > 0)
+            go.name = go.name.Substring(0, index); // 0 번부터 index 까지의 문자열을 잘라서 반환
+
+        return go;
     }
 
     public void Destroy(GameObject go, float time = 0f)

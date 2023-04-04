@@ -26,10 +26,9 @@ public class UI_Inven : UI_Scene
 
         for (int i = 0; i < 8; i++)
         {
-            GameObject item = Managers.Resource.Instantiate("UI/Scene/UI_Inven_Item");
-            item.transform.SetParent(gridPanel.transform);
+            GameObject go = Managers.UI.MakeSubItem<UI_Inven_Item>(gridPanel.transform).gameObject;
 
-            UI_Inve_Item invenItem = Util.GetOrAddComponent<UI_Inve_Item>(item);
+            UI_Inven_Item invenItem = go.GetOrAddComponent<UI_Inven_Item>();
             invenItem.SetInfo($"집행검{i}번");
         }
     }
