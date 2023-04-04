@@ -5,9 +5,11 @@ using UnityEngine.UI;
 using System;
 using UnityEngine.EventSystems;
 
-public class UI_Base : MonoBehaviour
+public abstract class UI_Base : MonoBehaviour
 {
     Dictionary<Type, UnityEngine.Object[]> _objects = new Dictionary<Type, UnityEngine.Object[]>();
+
+    public abstract void Init();
 
     protected void Bind<T>(Type type) where T : UnityEngine.Object
     {
