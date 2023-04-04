@@ -4,15 +4,28 @@ using UnityEngine;
 
 public class UIManager
 {
-    int             order = 0;
+    int             order = 10;
 
     Stack<UI_Popup> _popupStack = new Stack<UI_Popup>();
+    UI_Scene uI_Scene = null;
+
+    public GameObject Root
+    {
+        get
+        {
+            GameObject root = GameObject.Find("@UI_Root");
+            if (root == null)
+                root = new GameObject { name = "@UI_Root" };
+            return root;
+        }
+
+    }
 
     public void SetCanvas(GameObject go, bool sort = true)
     {
-        Canvas canvas = Util.GetOrAddComponent<Canvas>(go);
-        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-        canvas.overrideSorting = true;
+        Canvas canvas           = Util.GetOrAddComponent<Canvas>(go);
+        canvas.renderMode       = RenderMode.ScreenSpaceOverlay;
+        canvas.overrideSorting  = true;
 
         if (sort)
         {
@@ -28,13 +41,29 @@ public class UIManager
     public T ShowPopupUI<T>(string name = null) where T : UI_Popup
     {
         if (string.IsNullOrEmpty(name))
-            name = typeof(T).Name;
+            name        = typeof(T).Name;
 
-        GameObject go = Managers.Resource.Instantiate($"UI/Popup/{name}");
-        T popup = Util.GetOrAddComponent<T>(go);
+        GameObject go   = Managers.Resource.Instantiate($"UI/Popup/{name}");
+        T popup         = Util.GetOrAddComponent<T>(go);
         _popupStack.Push(popup);
 
-        return popup;
+        go.transform.SetParent(Root.transform);
+
+            return popup;
+    }
+
+    public T ShowSceneUI<T>(string name = null) where T : UI_Scene
+    {
+        if (string.IsNullOrEmpty(name))
+            name = typeof(T).Name;
+
+        GameObject go   = Managers.Resource.Instantiate($"UI/Scene/{name}");
+        T scene         = Util.GetOrAddComponent<T>(go);
+        uI_Scene        = scene;
+
+        go.transform.SetParent(Root.transform);
+
+        return scene;
     }
 
     public void ClosePopupUI()
