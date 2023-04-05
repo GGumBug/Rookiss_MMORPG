@@ -16,7 +16,7 @@ public class CameraController : MonoBehaviour
         if (_mode == Define.CameraMode.QuarterView)
         {
             RaycastHit hit;
-            if (Physics.Raycast(_player.transform.position, _delta, out hit, _delta.magnitude, LayerMask.GetMask("Wall")))
+            if (Physics.Raycast(_player.transform.position, _delta, out hit, _delta.magnitude, LayerMask.GetMask("Block")))
             {
                 float dis           = (hit.point - _player.position).magnitude * 0.8f;
                 // 카메라 위치 = 시작지점 + 방향 + 거리;
