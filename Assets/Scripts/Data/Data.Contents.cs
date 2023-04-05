@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using System;
 
+namespace Data
+{
+
 #region Stat
 
 [Serializable]
@@ -28,4 +31,6 @@ public class StatData : ILoader<int, Stat>
     }
 }
 #endregion
+
+}
 
