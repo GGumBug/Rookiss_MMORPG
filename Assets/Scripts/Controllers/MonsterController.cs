@@ -24,7 +24,7 @@ public class MonsterController : BaseController
 
     protected override void UpdateIdle()
     {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        GameObject player = Managers.Game.GetPlayer();
         if (player == null)
             return;
 
@@ -82,11 +82,7 @@ public class MonsterController : BaseController
         if (_lockTarget != null)
         {
             PlayerStat targetStat = _lockTarget.GetComponent<PlayerStat>();
-            int damage = Mathf.Max(0, _stat.Attack - targetStat.Defense);
-            targetStat.SetHp(-damage);
-
-            if (targetStat.Hp <= 0)
-                Managers.Game.DeSpawn(targetStat.gameObject);
+            targetStat.OnAttacked(_stat);
 
             if (targetStat.Hp >= 0 )
             {
