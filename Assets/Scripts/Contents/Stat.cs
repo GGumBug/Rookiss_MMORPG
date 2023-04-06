@@ -26,4 +26,9 @@ public class Stat : MonoBehaviour
         Defense = 5;
         MoveSpeed = 5.0f;
     }
+
+    public void SetHp(int damage)
+    {
+        Hp += damage;
+    }
 }
