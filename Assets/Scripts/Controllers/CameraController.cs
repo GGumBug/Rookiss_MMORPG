@@ -11,10 +11,16 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     private Vector3             _delta = new Vector3(0f, 6f, -5f);
 
+    public void SetPlayer(Transform player) { _player = player; }
+
     private void LateUpdate()
     {
         if (_mode == Define.CameraMode.QuarterView)
         {
+            if(!_player.gameObject.IsValid())
+            {
+                return;
+            }
             RaycastHit hit;
             if (Physics.Raycast(_player.transform.position, _delta, out hit, _delta.magnitude, LayerMask.GetMask("Block")))
             {
