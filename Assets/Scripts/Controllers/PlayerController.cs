@@ -6,20 +6,20 @@ using UnityEngine.AI;
 public class PlayerController : BaseController
 {
     int         _mask = (1 << (int)Define.Layer.Ground) | (1 << (int)Define.Layer.Monster);
+    int         _blockMask = (1 << (int)Define.Layer.Block);
     bool        _stopSkill = false;
 
     PlayerStat  _stat;
 
     protected override void Init()
     {
-        base.Init();
-
         _stat = gameObject.GetComponent<PlayerStat>();
 
         Managers.Input.MouseAction -= OnMouseEnent;
         Managers.Input.MouseAction += OnMouseEnent;
 
-        Managers.UI.MakeWorldSpaceUI<UI_HPBar>(transform);
+        if (gameObject.GetComponentInChildren<UI_HPBar>() == null)
+            Managers.UI.MakeWorldSpaceUI<UI_HPBar>(transform);
     }
 
     protected override void UpdateSkill()
@@ -51,20 +51,17 @@ public class PlayerController : BaseController
         }
         else
         {
-            NavMeshAgent nma = gameObject.GetOrAddComponent<NavMeshAgent>();
-            //_moveSpeed * Time.deltaTime이 dir.magnitude보다 커지면 목적지를 넘어갔다가 돌아오려고해서 마지막에 부들부들 거리는거다.
-            float moveDist = Mathf.Clamp(_stat.MoveSpeed * Time.deltaTime, 0, dir.magnitude);
-
-            nma.Move(dir.normalized * moveDist); // Move(방향벡터)
-
             Debug.DrawRay(transform.position + Vector3.up * 0.5f, dir.normalized, Color.green);
-            if (Physics.Raycast(transform.position + Vector3.up * 0.5f, dir, 1.0f, LayerMask.GetMask("Block")))
+            if (Physics.Raycast(transform.position + Vector3.up * 0.5f, dir, 1.0f, _blockMask))
             {
                 if (Input.GetMouseButton(0) == false)
                     State = Define.State.Idle;
                 return;
             }
 
+            //_moveSpeed * Time.deltaTime이 dir.magnitude보다 커지면 목적지를 넘어갔다가 돌아오려고해서 마지막에 부들부들 거리는거다.
+            float moveDist = Mathf.Clamp(_stat.MoveSpeed * Time.deltaTime, 0, dir.magnitude);
+            transform.position += dir.normalized * moveDist;
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 10f * Time.deltaTime);
         }
     }
@@ -76,7 +73,6 @@ public class PlayerController : BaseController
             Stat targetStat = _lockTarget.GetComponent<Stat>();
             PlayerStat myStat = gameObject.GetComponent<PlayerStat>();
             int damage = Mathf.Max(0, myStat.Attack - targetStat.Defense);
-            Debug.Log(damage);
             targetStat.SetHp(-damage);
         }
 

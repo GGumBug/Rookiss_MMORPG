@@ -30,5 +30,6 @@ public class Stat : MonoBehaviour
     public void SetHp(int damage)
     {
         Hp += damage;
+        Hp = Mathf.Clamp(Hp, 0, MaxHp);
     }
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseController : MonoBehaviour
+public abstract class BaseController : MonoBehaviour
 {
     [SerializeField]
     protected GameObject _lockTarget;
@@ -41,11 +41,6 @@ public class BaseController : MonoBehaviour
         Init();
     }
 
-    protected virtual void Init()
-    {
-
-    }
-
     private void Update()
     {
         switch (State)
@@ -65,6 +60,7 @@ public class BaseController : MonoBehaviour
         }
     }
 
+    protected abstract void Init();
     protected virtual void UpdateDie() { }
     protected virtual void UpdateMoving() { }
     protected virtual void UpdateIdle() { }
