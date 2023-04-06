@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class GameManager
 {
@@ -11,6 +12,8 @@ public class GameManager
 
     //HashSet은 key값이 없는 Dictionary라고 생각하면 됨
     HashSet<GameObject> _monster = new HashSet<GameObject>();
+
+    public Action<int> OnSpawnEvent;
 
     public GameObject GetPlayer() { return _player; }
 
@@ -25,6 +28,8 @@ public class GameManager
                 break;
             case Define.WorldObject.Monster:
                 _monster.Add(go);
+                if (OnSpawnEvent != null)
+                    OnSpawnEvent.Invoke(1);
                 break;
         }
 
@@ -56,6 +61,8 @@ public class GameManager
                 {
                     if (_monster.Contains(go))
                         _monster.Remove(go);
+                    if (OnSpawnEvent != null)
+                        OnSpawnEvent.Invoke(-1);
                 }
                 break;
         }
